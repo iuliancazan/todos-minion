@@ -289,8 +289,12 @@ h3 {
 @media (max-width: 600px) {
   .tasks {
     max-width: 100%;
-    -webkit-box-shadow: 0 0 0.1rem rgb(0 0 0 / 20%);
-    box-shadow: 0 0 0.5rem rgb(0 0 0 / 20%);
+    /* -webkit-box-shadow: 0 0 0.1rem rgb(0 0 0 / 20%);
+    box-shadow: 0 0 0.5rem rgb(0 0 0 / 20%); */
+  }
+
+  .addTask {
+    max-width: 100%;
   }
 }
 
