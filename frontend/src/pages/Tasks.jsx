@@ -12,7 +12,7 @@ function Tasks() {
 
   useEffect(() => {
     dispatch(getTasks());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
