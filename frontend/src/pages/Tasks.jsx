@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTasks } from '../features/tasks/taskSlice';
 import AddTask from '../components/AddTask';
@@ -7,6 +7,8 @@ import Spinner from '../components/Spinner';
 
 function Tasks() {
   const { tasks, isLoading } = useSelector((state) => state.tasks);
+
+  const [showCompleted, setShowCompleted] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -31,15 +33,21 @@ function Tasks() {
           ) : (
             <p>No due tasks. </p>
           )}
-
+          <div
+            className="toggleShowCompleted"
+            onClick={() => setShowCompleted(!showCompleted)}
+          >
+            {showCompleted ? 'Hide' : 'Show'} Completed Tasks
+          </div>
           <hr />
 
           {/* Completed tasks */}
-          {tasks.some((t) => t.isCompleted === true) ? (
-            tasks.map((t) => t.isCompleted && <Task task={t} key={t._id} />)
-          ) : (
-            <p>No completed tasks.</p>
-          )}
+          {showCompleted &&
+            (tasks.some((t) => t.isCompleted === true) ? (
+              tasks.map((t) => t.isCompleted && <Task task={t} key={t._id} />)
+            ) : (
+              <p>No completed tasks.</p>
+            ))}
         </div>
       </div>
     </div>

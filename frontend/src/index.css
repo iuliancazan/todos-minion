@@ -184,7 +184,7 @@ h3 {
 .tasks hr {
   border-top: 1px solid #ccc;
   border-bottom: 0px;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
 
@@ -199,33 +199,77 @@ h3 {
   justify-content: space-between;
 }
 
-.task__left {
+.task__left,
+.task__right {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.task__left svg,
+/* .task__left svg,
 .task__right svg {
-  color: #aaa;
+  color: var(--color-zinc-500);
+} */
+
+/* .task__right svg {
+  color: var(--color-red-700);
+} */
+
+.task__left_completed svg,
+.task__right_completed svg {
+  color: var(--color-red-500);
 }
 
-.task__left svg:hover,
-.task__right svg:hover {
-  color: #111;
+.task__left svg:hover {
+  color: var(--color-green-900);
 }
+/* .task__right svg:hover {
+  color: var(--color-red-900);
+}*/
 
 .task:hover {
   border-radius: 5px;
   border: 1px solid #aaa;
 }
 
-.task__right {
-  display: flex;
-  align-items: center;
+.task_right_button {
+  color: var(--color-red-500);
 }
 
 .task__completed {
-  color: #aaa;
+  color: var(--color-zinc-300);
+}
+
+.incomplete__red {
+  color: var(--color-rose-900);
+}
+.incomplete__red:hover {
+  color: var(--color-rose-800);
+}
+
+.incomplete__green {
+  color: var(--color-emerald-700);
+}
+
+.complete__red {
+  color: var(--color-rose-200);
+}
+.complete__red:hover {
+  color: var(--color-rose-300);
+}
+
+.complete__green {
+  color: var(--color-zinc-300);
+}
+
+.task__name {
+  cursor: pointer;
+}
+
+.task__date {
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-right: 1rem;
 }
 
 .addTask {
@@ -254,6 +298,19 @@ h3 {
   cursor: pointer;
 }
 
+.toggleShowCompleted {
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  margin-top: 3rem;
+  font-size: 0.82rem;
+  color: var(--color-zinc-400);
+}
+.toggleShowCompleted:hover {
+  color: var(--color-zinc-700);
+  cursor: pointer;
+}
+
 .loadingSpinnerContainer {
   position: fixed;
   top: 0;
@@ -274,6 +331,19 @@ h3 {
   border-color: #000 transparent #555 transparent;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
+}
+// react-modal transitions
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 2000ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
 }
 
 @keyframes spin {
@@ -339,4 +409,11 @@ h3 {
 
 .w-80 {
   width: 80%;
+}
+
+.text-sm {
+  font-size: 0.82rem;
+}
+.text-color-gray-300 {
+  color: var(--color-zinc-300);
 }

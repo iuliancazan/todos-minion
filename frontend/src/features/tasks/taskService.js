@@ -51,6 +51,8 @@ const updateTask = async (taskData, token) => {
     },
   };
 
+  console.log('service - update:', taskData);
+
   const response = await axios.put(API_URL + taskData._id, taskData, config);
 
   return response.data;

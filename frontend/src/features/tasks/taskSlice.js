@@ -2,14 +2,14 @@ import { toast } from 'react-toastify';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import taskService from './taskService';
 
-const dummyTasks = [
-  { _id: '2', title: 'Wash the dishes', isCompleted: false },
-  { _id: '1', title: 'Walk the dog', isCompleted: false },
-  { _id: '3', title: 'Groom the cat', isCompleted: true },
-  { _id: '4', title: 'Pay the bills', isCompleted: false },
-  { _id: '5', title: 'Throw out the garbage', isCompleted: true },
-  { _id: '6', title: 'Cook dinner', isCompleted: true },
-];
+// const dummyTasks = [
+//   { _id: '2', title: 'Wash the dishes', isCompleted: false },
+//   { _id: '1', title: 'Walk the dog', isCompleted: false },
+//   { _id: '3', title: 'Groom the cat', isCompleted: true },
+//   { _id: '4', title: 'Pay the bills', isCompleted: false },
+//   { _id: '5', title: 'Throw out the garbage', isCompleted: true },
+//   { _id: '6', title: 'Cook dinner', isCompleted: true },
+// ];
 
 const initialState = {
   tasks: [],
@@ -84,6 +84,28 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
+// Update task
+export const updateTask = createAsyncThunk(
+  'tasks/update',
+  async (taskData, thunkAPI) => {
+    try {
+      // console.log(taskData);
+      const token = thunkAPI.getState().auth.user.token;
+      return await taskService.updateTask(taskData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+    // return id;
+  }
+);
+
 // Toggle complete status of a task
 export const toggleCompleteTask = createAsyncThunk(
   'tasks/toggleComplete',
@@ -114,6 +136,7 @@ export const taskSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // create a new task
       .addCase(createTask.pending, (state) => {
         state.isLoading = true;
       })
@@ -127,6 +150,7 @@ export const taskSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      // get all tasks
       .addCase(getTasks.pending, (state) => {
         state.isLoading = true;
       })
@@ -140,6 +164,7 @@ export const taskSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      // delete a task
       .addCase(deleteTask.pending, (state) => {
         state.isLoading = true;
       })
@@ -152,6 +177,25 @@ export const taskSlice = createSlice({
           autoClose: 1000,
           hideProgressBar: true,
         });
+      })
+      // edit task
+      .addCase(updateTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        console.log('reducer payload', action.payload);
+        const pos = state.tasks.findIndex(
+          (task) => task._id === action.payload._id
+        );
+        console.log(pos);
+        state.tasks[pos] = { ...action.payload };
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(toggleCompleteTask.pending, (state) => {
         state.isLoading = true;
